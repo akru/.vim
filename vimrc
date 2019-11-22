@@ -1,4 +1,9 @@
-set nocompatible
+" Note: Skip initialization for vim-tiny or vim-small.
+if 0 | endif
+
+if &compatible
+  set nocompatible               " Be iMproved
+endif
 
 " Enable NeoBundle
 set runtimepath+=~/.vim/bundle/neobundle.vim/
@@ -15,9 +20,30 @@ NeoBundle 'tomtom/tlib_vim'
 NeoBundle 'garbas/vim-snipmate'
 NeoBundle 'honza/vim-snippets'
 
+" Syntax
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'neovimhaskell/haskell-vim'
+NeoBundle 'raichoo/purescript-vim'
+NeoBundle 'alx741/vim-hindent'
+NeoBundle 'vim-scripts/rfc-syntax'
+NeoBundle 'LnL7/vim-nix'
+
+" Style
+NeoBundle 'nbouscal/vim-stylish-haskell'
+
+" Nerds
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'godlygeek/tabular'
+
 " Autocomplection
 NeoBundle 'Shougo/neocomplcache.vim'
-NeoBundle 'eagletmt/neco-ghc'
+"NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/vimproc.vim'
+NeoBundle 'eagletmt/ghcmod-vim'
+"NeoBundle 'eagletmt/neco-ghc'
+NeoBundle 'rust-lang/rust.vim'
+NeoBundle 'frigoeu/psc-ide-vim'
 
 " Plugins end
 call neobundle#end()
@@ -76,6 +102,51 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+
+" Syntactic
+map <Leader>s :SyntasticToggleMode<CR>
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" GHC-mod
+map <silent> tw :GhcModTypeInsert<CR>
+map <silent> ts :GhcModSplitFunCase<CR>
+map <silent> tq :GhcModType<CR>
+map <silent> te :GhcModTypeClear<CR>
+
+" NerdTree
+map <Leader>n :NERDTreeToggle<CR>
+
+" Tabularize
+let g:haskell_tabular = 1
+
+vmap a= :Tabularize /=<CR>
+vmap a; :Tabularize /::<CR>
+vmap a- :Tabularize /-><CR>
+
+" Haskell vim
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+let g:haskell_classic_highlighting = 0
+let g:haskell_indent_guard = 2
+let g:haskell_indent_in = 1
+let g:haskell_indent_do = 3
+let g:haskell_indent_where = 6
+let g:haskell_indent_let = 4
+let g:haskell_indent_case = 2
+let g:haskell_indent_if = 3
 
 " If there are uninstalled bundles found on startup,
 " this will conveniently prompt you to install them.
